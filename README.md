@@ -1,26 +1,26 @@
-# Vue Loader
+# Vue Moola
 A vue 2 component for a money mask input.
 
-## How to initialize Vue Loader
+## How to initialize Vue Moola
 Vue moola is built as a vue plugin. It can be initialized just as the Vue documentation states.
 
 ```javascript
-import VueMoola from "vue2-moola";
+import Moola from "@pderas/vue2-moola";
 
-Vue.use(VueMoola);
+Vue.use(Moola);
 ```
 ## Usage
 
 #### Creation
-Vue moola is easily created, and usually combined with a v-if to show/hide the loader.
+Vue moola is easily created, and has many properties that can be changed.
 ```HTML
-<vue-moola value="0"></vue-moola>
+<moola value="0"></moola>
 ```
 
 ## Properties
 | Property  | Required | Type                 | Default                 | Description                                   |
 |-----------|----------|----------------------|-------------------------|-----------------------------------------------|
-| value     | true     | Number&#124;String   | 0                       | Value for the input, can be used with v-model |
+| value     | false    | Number&#124;String   | 0                       | Value for the input, can be used with v-model |
 | max       | false    | Number               | Number.MAX_SAFE_INTEGER | The max value for the input                   |
 | min       | false    | Number               | Number.MIN_SAFE_INTEGER | The min value for the input                   |
 | precision | false    | Number               | 2                       | Amount of decimals to allow                   |

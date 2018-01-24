@@ -1,5 +1,5 @@
 <template>
-    <input ref="vue-moola"
+    <input ref="moola"
            type="text"
            :value="formattedValue"
            @input="formatInput"
@@ -12,7 +12,7 @@
 
 <script>
     export default {
-        name: 'vue-moola',
+        name: 'moola',
 
         props: {
             max: {
@@ -42,7 +42,6 @@
 
             value: {
                 type: [ Number, String ],
-                required: true,
                 default: 0
             }
         },
@@ -54,7 +53,7 @@
         watch: {
             value: {
                 handler(newVal) {
-                    var el = this.$refs['vue-moola'];
+                    var el = this.$refs['moola'];
                     var formatted = this.addCommas(newVal);
 
                     if (el && el !== document.activeElement) {
@@ -101,7 +100,7 @@
             checkDecimals(event) {
                 var val = this.removeCommas(event.target.value);
                 var split = val.split('.');
-                var el = this.$refs['vue-moola'];
+                var el = this.$refs['moola'];
 
                 el.value = this.addCommas(Number(val).toFixed(this.precision));
                 this.$emit('input', Number(val).toFixed(this.precision));
@@ -121,7 +120,7 @@
                 var keyCode = event.keyCode;
                 var otherKey = event.metaKey || event.altKey || event.ctrlKey;
 
-                var ref = this.$refs['vue-moola'];
+                var ref = this.$refs['moola'];
                 var val = String(ref.value);
 
                 var cursorPosition = ref.selectionStart;
@@ -156,14 +155,14 @@
             },
 
             highlight(event) {
-                var el = this.$refs['vue-moola'];
+                var el = this.$refs['moola'];
                 el.select();
             },
 
             formatInput(event) {
                 var val = this.removeCommas(event.target.value);
                 var split = val.split('.');
-                var el = this.$refs['vue-moola'];
+                var el = this.$refs['moola'];
                 var positionFromEnd = el.value.length - el.selectionEnd;
                 var decimalOffset = 0;
 

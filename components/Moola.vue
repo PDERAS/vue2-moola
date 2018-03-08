@@ -136,7 +136,7 @@
                     return;
                 } else {
                     /* Period or Decimal */
-                    if (keyCode == 110 || keyCode == 190) {
+                    if ((keyCode == 110 || keyCode == 190) && this.precision > 0) {
                         var newVal = String(val) + '.';
                         var split = newVal.split('.');
 

@@ -178,11 +178,11 @@
 
 
                 if (Number(val) > this.max) {
-                    val = this.max.toFixed(2);
+                    val = this.max.toFixed(this.precision);
                 }
 
                 if (Number(val) < this.min) {
-                    val = this.min.toFixed(2);
+                    val = this.min.toFixed(this.precision);
                 }
                 el.value = this.addCommas(val);
                 positionFromEnd = el.value.length - positionFromEnd + decimalOffset;

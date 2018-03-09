@@ -148,6 +148,15 @@
                         if (cursorPosition == 0 && String(val).length > 0 && String(val[0]) != '.' && selectionSize == 1) {
                             event.preventDefault();
                         }
+                    /* Minus */
+                    } else if ((keyCode == 109 || keyCode == 189) && this.min < 0 && Number(this.value) != 0) {
+                        if (this.value[0] != '-') {
+                            this.$emit('input', '-' + this.value);
+                        } else {
+                            this.$emit('input', String(this.value).substring(1));
+                        }
+
+                        event.preventDefault();
                     } else {
                         event.preventDefault();
                     }

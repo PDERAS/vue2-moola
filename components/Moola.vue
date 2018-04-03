@@ -67,6 +67,7 @@
                     if (formatted !== this.formattedValue) {
                         this.formattedValue = formatted;
                     }
+
                     return Number(newVal);
                 },
                 immediate: true
@@ -128,15 +129,22 @@
 
                 /* Functional, Navigational and Number Keys */
                 if (otherKey
-                    || (keyCode < 48 && keyCode != 32)
+                    || (keyCode < 48 && keyCode != 32 & keyCode != 8)
                     || (keyCode > 48 && keyCode <= 57)
-                    || (keyCode >= 91 &&  keyCode <= 93)
-                    || (keyCode > 96 &&  keyCode <= 105)
+                    || (keyCode >= 91 && keyCode <= 93)
+                    || (keyCode > 96 && keyCode <= 105)
                     || (keyCode >= 112 && keyCode <= 145)) {
                     return;
                 } else {
+                    /* Backspace */
+                    if (keyCode == 8) {
+                        if (String(val)[cursorPosition - 1] == ',') {
+                            var newVal = val.slice(0, cursorPosition - 2) + val.slice(cursorPosition, val.length);
+                            this.$emit('input', newVal);
+                            event.preventDefault();
+                        }
                     /* Period or Decimal */
-                    if ((keyCode == 110 || keyCode == 190) && this.precision > 0) {
+                    } else if ((keyCode == 110 || keyCode == 190) && this.precision > 0) {
                         var newVal = String(val) + '.';
                         var split = newVal.split('.');
 
@@ -145,7 +153,7 @@
                         }
                     /* Zero */
                     } else if (keyCode == 48 || keyCode == 96) {
-                        if (cursorPosition == 0 && String(val).length > 0 && String(val[0]) != '.' && selectionSize == 1) {
+                        if (cursorPosition == 0 && String(val).length > 0 && String(val[0]) != '.') {
                             event.preventDefault();
                         }
                     /* Minus */
@@ -173,7 +181,7 @@
                 var split = val.split('.');
                 var el = this.$refs['moola'];
                 var positionFromEnd = el.value.length - el.selectionEnd;
-                var decimalOffset = 0;
+                var offset = 0;
 
                 if (split[0].length == 2 && split[0][0] == '0') {
                     val = String(val).substr(1, String(val).length - 1);
@@ -182,9 +190,8 @@
                 if (split.length > 1 && split[1].length > this.precision) {
                     var lastDigit = positionFromEnd < 2 ? split[1][split[1].length - 1 - positionFromEnd] : split[1][split[1].length - 1];
                     val = String(val).substr(0, String(val).length - 2) + lastDigit;
-                    decimalOffset = 1;
+                    offset = 1;
                 }
-
 
                 if (Number(val) > this.max) {
                     val = this.max.toFixed(this.precision);
@@ -194,10 +201,13 @@
                     val = this.min.toFixed(this.precision);
                 }
                 el.value = this.addCommas(val);
-                positionFromEnd = el.value.length - positionFromEnd + decimalOffset;
+
+                positionFromEnd = el.value.length - positionFromEnd + offset;
 
                 this.$emit('input', val);
-
+                if (positionFromEnd < 0) {
+                    positionFromEnd = 0;
+                }
                 // Nothing has been highlighted...
                 if (el.selectionStart == el.selectionEnd) {
                     this.setCursor(el, positionFromEnd);

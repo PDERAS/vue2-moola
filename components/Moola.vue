@@ -153,7 +153,7 @@
                         }
                     /* Zero */
                     } else if (keyCode == 48 || keyCode == 96) {
-                        if (cursorPosition == 0 && String(val).length > 0 && String(val[0]) != '.') {
+                        if (cursorPosition == 0 && String(val).length > 0 && String(val[0]) != '.' && selectionSize == 0) {
                             event.preventDefault();
                         }
                     /* Minus */

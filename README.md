@@ -26,6 +26,7 @@ Vue moola is easily created, and has many properties that can be changed.
 | precision | false    | Number               | 2                       | Amount of decimals to allow                   |
 | prefix    | false    | String               | '$'                     | A prefix for the input (can be set to null)   |
 | suffix    | false    | String               | null                    | A suffix for the input (e.i. '%')             |
+| delimiter | false    | String               | ','                     | A character to separate the numbers thousands by. (e.i. '1,000') |
 
 
 ## License

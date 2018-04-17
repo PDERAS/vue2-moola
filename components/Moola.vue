@@ -43,6 +43,11 @@
             value: {
                 type: [ Number, String ],
                 default: 0
+            },
+
+            delimiter: {
+                type: String,
+                default: ','
             }
         },
 
@@ -92,7 +97,7 @@
                 var split = val.split('.');
 
                 while (/(\d+)(\d{3})/.test(split[0])) {
-                    split[0] = split[0].replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+                    split[0] = split[0].replace(/(\d+)(\d{3})/, '$1' + this.delimiter + '$2');
                 }
 
                 return split.join('.');
@@ -138,7 +143,7 @@
                 } else {
                     /* Backspace */
                     if (keyCode == 8) {
-                        if (String(val)[cursorPosition - 1] == ',') {
+                        if (String(val)[cursorPosition - 1] == this.delimiter) {
                             var newVal = val.slice(0, cursorPosition - 2) + val.slice(cursorPosition, val.length);
                             this.$emit('input', newVal);
                             event.preventDefault();
@@ -215,7 +220,7 @@
             },
 
             removeCommas(val) {
-                return (String(val).split(',')).join('');
+                return (String(val).split(this.delimiter)).join('');
             },
 
             setCursor(el, position) {

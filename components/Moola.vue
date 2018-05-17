@@ -59,7 +59,7 @@
             value: {
                 handler(newVal) {
                     var el = this.$refs['moola'];
-                    var formatted = this.addCommas(newVal);
+                    var formatted = this.addDelimiters(newVal);
 
                     if (el && el !== document.activeElement) {
                         if (this.prefix) {
@@ -80,7 +80,7 @@
         },
 
         mounted() {
-            var formatted = this.addCommas(Number(this.value).toFixed(this.precision));
+            var formatted = this.addDelimiters(Number(this.value).toFixed(this.precision));
             if (this.prefix) {
                 formatted = this.prefix + formatted;
             }
@@ -91,7 +91,7 @@
         },
 
         methods: {
-            addCommas(val) {
+            addDelimiters(val) {
                 val = String(val);
 
                 var split = val.split('.');
@@ -104,7 +104,7 @@
             },
 
             blur(event) {
-                var val = this.removeCommas(event.target.value);
+                var val = this.removeDelimiters(event.target.value);
                 var split = val.split('.');
                 var el = this.$refs['moola'];
 
@@ -113,7 +113,7 @@
                 if (isNaN(emitVal) || !isFinite(emitVal)) {
                     emitVal = "0.00";
                 }
-                el.value = this.addCommas(emitVal);
+                el.value = this.addDelimiters(emitVal);
                 this.$emit('input', emitVal);
 
                 if (el && el !== document.activeElement) {
@@ -188,7 +188,7 @@
             },
 
             formatInput(event) {
-                var val = this.removeCommas(event.target.value);
+                var val = this.removeDelimiters(event.target.value);
                 var split = val.split('.');
                 var el = this.$refs['moola'];
                 var positionFromEnd = el.value.length - el.selectionEnd;
@@ -211,7 +211,7 @@
                 if (Number(val) < this.min) {
                     val = this.min.toFixed(this.precision);
                 }
-                el.value = this.addCommas(val);
+                el.value = this.addDelimiters(val);
 
                 positionFromEnd = el.value.length - positionFromEnd + offset;
 
@@ -225,7 +225,7 @@
                 }
             },
 
-            removeCommas(val) {
+            removeDelimiters(val) {
                 return (String(val).split(this.delimiter)).join('');
             },
 

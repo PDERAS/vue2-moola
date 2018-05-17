@@ -1,26 +1,26 @@
 {
-  "name": "@pderas/vue2-moola",
-  "version": "1.1.4",
-  "description": "A vue 2 component for a money mask input",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PDERAS/vue2-moola.git"
-  },
-  "keywords": [
+    "name": "@pderas/vue2-moola",
+    "version": "1.1.5",
+    "description": "A vue 2 component for a money mask input",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/PDERAS/vue2-moola.git"
+    },
+    "keywords": [
     "vue2",
     "vue2js",
     "vue2moola",
     "vue2-moola",
     "moola"
   ],
-  "author": "Cody Moorhouse",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/PDERAS/vue2-moola/issues"
-  },
-  "homepage": "https://github.com/PDERAS/vue2-moola#readme"
+    "author": "Cody Moorhouse",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/PDERAS/vue2-moola/issues"
+    },
+    "homepage": "https://github.com/PDERAS/vue2-moola#readme"
 }

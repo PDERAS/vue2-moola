@@ -4,7 +4,7 @@
            :value="formattedValue"
            @input="formatInput"
            @keydown="checkKeys($event)"
-           @blur="checkDecimals($event)"
+           @blur="blur($event)"
            @mousemove.prevent
            @focusin="highlight"
            @focus="stripFormatters" >
@@ -103,13 +103,18 @@
                 return split.join('.');
             },
 
-            checkDecimals(event) {
+            blur(event) {
                 var val = this.removeCommas(event.target.value);
                 var split = val.split('.');
                 var el = this.$refs['moola'];
 
-                el.value = this.addCommas(Number(val).toFixed(this.precision));
-                this.$emit('input', Number(val).toFixed(this.precision));
+                var emitVal = Number(val).toFixed(this.precision);
+
+                if (isNaN(emitVal) || !isFinite(emitVal)) {
+                    emitVal = "0.00";
+                }
+                el.value = this.addCommas(emitVal);
+                this.$emit('input', emitVal);
 
                 if (el && el !== document.activeElement) {
                     if (this.prefix) {
@@ -123,7 +128,7 @@
 
             checkKeys(event) {
                 this.stripFormatters(event);
-                var keyCode = event.keyCode;
+                var keyCode = event.which || event.keyCode;
                 var otherKey = event.metaKey || event.altKey || event.ctrlKey;
 
                 var ref = this.$refs['moola'];
@@ -162,14 +167,15 @@
                             event.preventDefault();
                         }
                     /* Minus */
-                    } else if ((keyCode == 109 || keyCode == 189) && this.min < 0 && Number(this.value) != 0) {
-                        if (this.value[0] != '-') {
-                            this.$emit('input', '-' + this.value);
-                        } else {
-                            this.$emit('input', String(this.value).substring(1));
+                    } else if (keyCode == 109 || keyCode == 189) {
+                        if (cursorPosition != 0) {
+                            if (String(val[0]) == '-') {
+                                this.$emit('input', String(this.value).substring(1));
+                            } else {
+                                this.$emit('input', '-' + this.value);
+                            }
+                            event.preventDefault();
                         }
-
-                        event.preventDefault();
                     } else {
                         event.preventDefault();
                     }

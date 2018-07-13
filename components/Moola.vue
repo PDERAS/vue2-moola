@@ -58,6 +58,11 @@
         watch: {
             value: {
                 handler(newVal) {
+                    /* Don't format value if it is null */
+                    if (newVal === null || newVal === '') {
+                        this.formattedValue = null;
+                        return newVal;
+                    }
                     var el = this.$refs['moola'];
                     var formatted = this.addDelimiters(newVal);
 
@@ -80,14 +85,17 @@
         },
 
         mounted() {
-            var formatted = this.addDelimiters(Number(this.value).toFixed(this.precision));
-            if (this.prefix) {
-                formatted = this.prefix + formatted;
+            /* Format value if it is not null */
+            if (this.value !== null && this.value !== '') {
+                var formatted = this.addDelimiters(Number(this.value).toFixed(this.precision));
+                if (this.prefix) {
+                    formatted = this.prefix + formatted;
+                }
+                if (this.suffix) {
+                    formatted = formatted + this.suffix;
+                }
+                this.formattedValue = formatted;
             }
-            if (this.suffix) {
-                formatted = formatted + this.suffix;
-            }
-            this.formattedValue = formatted
         },
 
         methods: {
@@ -104,6 +112,12 @@
             },
 
             blur(event) {
+                /* Short circuit function if input is cleared */
+                if (event.target.value === '') {
+                    this.$emit('input', null);
+                    this.formattedValue = null;
+                    return;
+                }
                 var val = this.removeDelimiters(event.target.value);
                 var split = val.split('.');
                 var el = this.$refs['moola'];
@@ -237,8 +251,11 @@
             },
 
             stripFormatters(event) {
-                this.stripPrefix(event);
-                this.stripSuffix(event);
+                /* Only strip formatting if a value is set */
+                if (event.target.value !== null && event.target.value !== '') {
+                    this.stripPrefix(event);
+                    this.stripSuffix(event);
+                }
             },
 
             stripPrefix(event) {

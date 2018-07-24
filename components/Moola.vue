@@ -97,7 +97,7 @@
 
         mounted() {
             /* Format value if it is not null and prop is true */
-            if ((this.nullable && (this.value === null || this.value === '')) || !this.nullable) {
+            if (!this.nullable || !(this.value === null || this.value === '')) {
                 var formatted = this.addDelimiters(Number(this.value).toFixed(this.precision));
                 if (this.prefix) {
                     formatted = this.prefix + formatted;

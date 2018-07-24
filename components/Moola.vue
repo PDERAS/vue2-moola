@@ -97,7 +97,7 @@
 
         mounted() {
             /* Format value if it is not null and prop is true */
-            if (this.nullable && (this.value !== null && this.value !== '')) {
+            if (!this.nullable || !(this.value === null || this.value === '')) {
                 var formatted = this.addDelimiters(Number(this.value).toFixed(this.precision));
                 if (this.prefix) {
                     formatted = this.prefix + formatted;
@@ -195,9 +195,9 @@
                     } else if (keyCode == 109 || keyCode == 189) {
                         if (cursorPosition != 0) {
                             if (String(val[0]) == '-') {
-                                this.$emit('input', String(this.value).substring(1));
+                                this.$emit('input', this.checkThresholds(String(this.value).substring(1)));
                             } else {
-                                this.$emit('input', '-' + this.value);
+                                this.$emit('input', this.checkThresholds('-' + this.value));
                             }
                             event.preventDefault();
                         }
@@ -205,6 +205,18 @@
                         event.preventDefault();
                     }
                 }
+            },
+
+            checkThresholds(val) {
+                if (Number(val) > this.max) {
+                    val = this.max.toFixed(this.precision);
+                }
+
+                if (Number(val) < this.min) {
+                    val = this.min.toFixed(this.precision);
+                }
+
+                return val;
             },
 
             highlight(event) {
@@ -229,13 +241,8 @@
                     offset = 1;
                 }
 
-                if (Number(val) > this.max) {
-                    val = this.max.toFixed(this.precision);
-                }
+                val = this.checkThresholds(val);
 
-                if (Number(val) < this.min) {
-                    val = this.min.toFixed(this.precision);
-                }
                 el.value = this.addDelimiters(val);
 
                 positionFromEnd = el.value.length - positionFromEnd + offset;

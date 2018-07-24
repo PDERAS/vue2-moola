@@ -15,6 +15,11 @@
         name: 'moola',
 
         props: {
+            delimiter: {
+                type: String,
+                default: ','
+            },
+
             max: {
                 type: Number,
                 default: Number.MAX_SAFE_INTEGER
@@ -54,11 +59,6 @@
             value: {
                 type: [ Number, String ],
                 default: 0
-            },
-
-            delimiter: {
-                type: String,
-                default: ','
             }
         },
 

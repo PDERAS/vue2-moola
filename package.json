@@ -1,6 +1,6 @@
 {
     "name": "@pderas/vue2-moola",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "description": "A vue 2 component for a money mask input",
     "main": "index.js",
     "scripts": {

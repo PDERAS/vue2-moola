@@ -25,6 +25,17 @@
                 default: Number.MIN_SAFE_INTEGER
             },
 
+            /**
+             * Sets if the base value can be null
+             * or defaults to 0.
+             *
+             * @var boolean
+             */
+            nullable: {
+                type: Boolean,
+                default: false
+            },
+
             precision: {
                 type: Number,
                 default: 2
@@ -58,8 +69,8 @@
         watch: {
             value: {
                 handler(newVal) {
-                    /* Don't format value if it is null */
-                    if (newVal === null || newVal === '') {
+                    /* Don't format value if it is null and prop is true */
+                    if (this.nullable && (newVal === null || newVal === '')) {
                         this.formattedValue = null;
                         return newVal;
                     }
@@ -85,8 +96,8 @@
         },
 
         mounted() {
-            /* Format value if it is not null */
-            if (this.value !== null && this.value !== '') {
+            /* Format value if it is not null and prop is true */
+            if (this.nullable && (this.value !== null && this.value !== '')) {
                 var formatted = this.addDelimiters(Number(this.value).toFixed(this.precision));
                 if (this.prefix) {
                     formatted = this.prefix + formatted;
@@ -113,7 +124,7 @@
 
             blur(event) {
                 /* Short circuit function if input is cleared */
-                if (event.target.value === '') {
+                if (this.nullable && event.target.value === '') {
                     this.$emit('input', null);
                     this.formattedValue = null;
                     return;

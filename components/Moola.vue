@@ -75,9 +75,10 @@
                         return newVal;
                     }
                     var el = this.$refs['moola'];
-                    var formatted = this.addDelimiters(Number(newVal).toFixed(this.precision));
+                    var formatted = this.addDelimiters(newVal);
 
                     if (el && el !== document.activeElement) {
+                        formatted = this.addDelimiters(Number(newVal).toFixed(this.precision));
                         if (this.prefix) {
                             formatted = this.prefix + formatted;
                         }

@@ -62,13 +62,15 @@
             }
         },
 
-        data: () => ({
-            formattedValue: ''
-        }),
+        data: function() {
+            return {
+                formattedValue: ''
+            }
+        },
 
         watch: {
             value: {
-                handler(newVal) {
+                handler: function(newVal) {
                     /* Don't format value if it is null and prop is true */
                     if (this.nullable && (newVal === null || newVal === '')) {
                         this.formattedValue = null;
@@ -96,7 +98,7 @@
             }
         },
 
-        mounted() {
+        mounted: function() {
             /* Format value if it is not null and prop is true */
             if (!this.nullable || !(this.value === null || this.value === '')) {
                 var formatted = this.addDelimiters(Number(this.value).toFixed(this.precision));
@@ -111,7 +113,7 @@
         },
 
         methods: {
-            addDelimiters(val) {
+            addDelimiters: function(val) {
                 val = String(val);
 
                 var split = val.split('.');
@@ -123,7 +125,7 @@
                 return split.join('.');
             },
 
-            blur(event) {
+            blur: function(event) {
                 /* Short circuit function if input is cleared */
                 if (this.nullable && event.target.value === '') {
                     this.$emit('input', null);
@@ -152,7 +154,7 @@
                 }
             },
 
-            checkKeys(event) {
+            checkKeys: function(event) {
                 this.stripFormatters(event);
                 var keyCode = event.which || event.keyCode;
                 var otherKey = event.metaKey || event.altKey || event.ctrlKey;
@@ -208,7 +210,7 @@
                 }
             },
 
-            checkThresholds(val) {
+            checkThresholds: function(val) {
                 if (Number(val) > this.max) {
                     val = this.max.toFixed(this.precision);
                 }
@@ -220,12 +222,12 @@
                 return val;
             },
 
-            highlight(event) {
+            highlight: function(event) {
                 var el = this.$refs['moola'];
                 el.select();
             },
 
-            formatInput(event) {
+            formatInput: function(event) {
                 var val = this.removeDelimiters(event.target.value);
                 var split = val.split('.');
                 var el = this.$refs['moola'];
@@ -258,18 +260,18 @@
                 }
             },
 
-            removeDelimiters(val) {
+            removeDelimiters: function(val) {
                 return (String(val).split(this.delimiter)).join('');
             },
 
-            setCursor(el, position) {
+            setCursor: function(el, position) {
                 var setSelectionRange = function () { el.setSelectionRange(position, position) }
                 if (el === document.activeElement) {
                     setSelectionRange()
                 }
             },
 
-            stripFormatters(event) {
+            stripFormatters: function(event) {
                 /* Only strip formatting if a value is set */
                 if (event.target.value !== null && event.target.value !== '') {
                     this.stripPrefix(event);
@@ -277,12 +279,12 @@
                 }
             },
 
-            stripPrefix(event) {
+            stripPrefix: function(event) {
                 event.target.value = event.target.value.replace(this.prefix, '');
                 this.formattedValue = this.formattedValue.replace(this.prefix, '');
             },
 
-            stripSuffix(event) {
+            stripSuffix: function(event) {
                 event.target.value = event.target.value.replace(this.suffix, '');
                 this.formattedValue = this.formattedValue.replace(this.suffix, '');
             },

@@ -143,6 +143,7 @@
                 }
                 el.value = this.addDelimiters(emitVal);
                 this.$emit('input', emitVal);
+                this.$emit('blur', emitVal);
 
                 if (el && el !== document.activeElement) {
                     if (this.prefix) {
